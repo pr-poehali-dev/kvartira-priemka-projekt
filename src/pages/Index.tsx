@@ -1,12 +1,507 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import Icon from '@/components/ui/icon';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Progress } from '@/components/ui/progress';
 
 const Index = () => {
+  const [checklistItems, setChecklistItems] = useState([
+    { id: 1, category: 'Окна и двери', item: 'Проверить открывание/закрывание окон', checked: false },
+    { id: 2, category: 'Окна и двери', item: 'Проверить уплотнители на окнах', checked: false },
+    { id: 3, category: 'Окна и двери', item: 'Проверить фурнитуру окон', checked: false },
+    { id: 4, category: 'Окна и двери', item: 'Проверить работу дверных замков', checked: false },
+    { id: 5, category: 'Стены и потолки', item: 'Осмотреть стены на трещины', checked: false },
+    { id: 6, category: 'Стены и потолки', item: 'Проверить ровность стен', checked: false },
+    { id: 7, category: 'Стены и потолки', item: 'Проверить потолки на протечки', checked: false },
+    { id: 8, category: 'Стены и потолки', item: 'Осмотреть углы и стыки', checked: false },
+    { id: 9, category: 'Электрика', item: 'Проверить работу розеток', checked: false },
+    { id: 10, category: 'Электрика', item: 'Проверить выключатели', checked: false },
+    { id: 11, category: 'Электрика', item: 'Проверить щиток', checked: false },
+    { id: 12, category: 'Сантехника', item: 'Проверить напор воды', checked: false },
+    { id: 13, category: 'Сантехника', item: 'Проверить трубы на протечки', checked: false },
+    { id: 14, category: 'Сантехника', item: 'Проверить канализацию', checked: false },
+    { id: 15, category: 'Полы', item: 'Проверить ровность полов', checked: false },
+    { id: 16, category: 'Полы', item: 'Осмотреть на дефекты', checked: false },
+  ]);
+
+  const toggleChecklistItem = (id: number) => {
+    setChecklistItems(items =>
+      items.map(item =>
+        item.id === id ? { ...item, checked: !item.checked } : item
+      )
+    );
+  };
+
+  const checkedCount = checklistItems.filter(item => item.checked).length;
+  const progressPercent = Math.round((checkedCount / checklistItems.length) * 100);
+
+  const groupedChecklist = checklistItems.reduce((acc, item) => {
+    if (!acc[item.category]) {
+      acc[item.category] = [];
+    }
+    acc[item.category].push(item);
+    return acc;
+  }, {} as Record<string, typeof checklistItems>);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4 color-black text-black">Добро пожаловать!</h1>
-        <p className="text-xl text-gray-600">тут будет отображаться ваш проект</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-border">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Icon name="CheckCircle2" size={28} className="text-primary" />
+            <span className="text-xl font-bold text-secondary">ПриёмкаПро</span>
+          </div>
+          <div className="hidden md:flex items-center gap-6">
+            <a href="#services" className="text-sm hover:text-primary transition-colors">Услуги</a>
+            <a href="#process" className="text-sm hover:text-primary transition-colors">Процесс</a>
+            <a href="#prices" className="text-sm hover:text-primary transition-colors">Цены</a>
+            <a href="#defects" className="text-sm hover:text-primary transition-colors">База дефектов</a>
+            <a href="#legal" className="text-sm hover:text-primary transition-colors">Правовая база</a>
+            <a href="#reviews" className="text-sm hover:text-primary transition-colors">Отзывы</a>
+          </div>
+          <Button className="hidden md:inline-flex">
+            Консультация
+            <Icon name="ArrowRight" size={16} className="ml-2" />
+          </Button>
+          <Button variant="ghost" size="icon" className="md:hidden">
+            <Icon name="Menu" size={24} />
+          </Button>
+        </div>
+      </nav>
+
+      <section id="hero" className="pt-32 pb-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6 animate-fade-in">
+              <Badge variant="outline" className="w-fit">По закону РФ</Badge>
+              <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
+                Приёмка квартир и домов
+              </h1>
+              <p className="text-lg text-muted-foreground">
+                Профессиональная экспертиза новостроек с юридическим сопровождением. 
+                Защитим ваши права и найдём все дефекты до подписания акта.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button size="lg" className="text-base">
+                  Заказать приёмку
+                  <Icon name="Calendar" size={18} className="ml-2" />
+                </Button>
+                <Button size="lg" variant="outline" className="text-base">
+                  <Icon name="Phone" size={18} className="mr-2" />
+                  +7 (495) 123-45-67
+                </Button>
+              </div>
+              <div className="flex items-center gap-8 pt-4">
+                <div>
+                  <div className="text-3xl font-bold text-primary">1500+</div>
+                  <div className="text-sm text-muted-foreground">Квартир принято</div>
+                </div>
+                <div>
+                  <div className="text-3xl font-bold text-primary">98%</div>
+                  <div className="text-sm text-muted-foreground">Нашли дефекты</div>
+                </div>
+                <div>
+                  <div className="text-3xl font-bold text-primary">5 лет</div>
+                  <div className="text-sm text-muted-foreground">На рынке</div>
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="aspect-square bg-gradient-to-br from-primary/10 to-primary/5 rounded-3xl flex items-center justify-center">
+                <Icon name="Home" size={180} className="text-primary/20" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" className="py-20 px-4 bg-muted/30">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4">Наши услуги</Badge>
+            <h2 className="text-4xl font-bold mb-4">Что входит в приёмку</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Комплексная проверка всех конструктивных элементов и инженерных систем
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { icon: 'Ruler', title: 'Геометрия помещений', desc: 'Проверка размеров, высоты потолков, ровности стен и полов' },
+              { icon: 'Droplets', title: 'Инженерные системы', desc: 'Водоснабжение, канализация, отопление, вентиляция' },
+              { icon: 'Zap', title: 'Электрика', desc: 'Розетки, выключатели, автоматы, разводка по квартире' },
+              { icon: 'DoorOpen', title: 'Окна и двери', desc: 'Фурнитура, уплотнители, откосы, подоконники' },
+              { icon: 'FileText', title: 'Документация', desc: 'Проверка соответствия документам и ДДУ' },
+              { icon: 'Scale', title: 'Юридическая поддержка', desc: 'Составление претензий, сопровождение до устранения' },
+            ].map((service, idx) => (
+              <Card key={idx} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                    <Icon name={service.icon} size={24} className="text-primary" />
+                  </div>
+                  <CardTitle className="text-xl">{service.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-base">{service.desc}</CardDescription>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="process" className="py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4">Как это работает</Badge>
+            <h2 className="text-4xl font-bold mb-4">Процесс приёмки</h2>
+          </div>
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              { step: '01', icon: 'Phone', title: 'Заявка', desc: 'Звоните или оставляете заявку на сайте' },
+              { step: '02', icon: 'Calendar', title: 'Запись', desc: 'Согласовываем удобное время осмотра' },
+              { step: '03', icon: 'ClipboardCheck', title: 'Осмотр', desc: 'Проводим детальную инспекцию 3-5 часов' },
+              { step: '04', icon: 'FileText', title: 'Отчёт', desc: 'Получаете акт с дефектами и рекомендациями' },
+            ].map((item, idx) => (
+              <div key={idx} className="relative">
+                <div className="text-6xl font-bold text-primary/10 mb-4">{item.step}</div>
+                <div className="w-14 h-14 bg-primary rounded-xl flex items-center justify-center mb-4">
+                  <Icon name={item.icon} size={28} className="text-white" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                <p className="text-muted-foreground">{item.desc}</p>
+                {idx < 3 && (
+                  <Icon name="ArrowRight" size={24} className="hidden md:block absolute top-8 -right-6 text-primary/30" />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="checklist" className="py-20 px-4 bg-muted/30">
+        <div className="container mx-auto max-w-4xl">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4">Интерактивный инструмент</Badge>
+            <h2 className="text-4xl font-bold mb-4">Чек-лист для самопроверки</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Используйте наш чек-лист для предварительной проверки квартиры перед профессиональной приёмкой
+            </p>
+          </div>
+          
+          <Card className="mb-6">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle>Прогресс проверки</CardTitle>
+                <Badge variant="secondary">{checkedCount} из {checklistItems.length}</Badge>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Progress value={progressPercent} className="h-3" />
+              <p className="text-sm text-muted-foreground mt-2">{progressPercent}% завершено</p>
+            </CardContent>
+          </Card>
+
+          <Accordion type="multiple" className="space-y-4">
+            {Object.entries(groupedChecklist).map(([category, items]) => {
+              const categoryChecked = items.filter(item => item.checked).length;
+              return (
+                <AccordionItem key={category} value={category} className="bg-white rounded-lg border px-6">
+                  <AccordionTrigger className="hover:no-underline">
+                    <div className="flex items-center justify-between w-full pr-4">
+                      <span className="font-semibold">{category}</span>
+                      <Badge variant="outline">{categoryChecked}/{items.length}</Badge>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="pt-4">
+                    <div className="space-y-3">
+                      {items.map(item => (
+                        <div key={item.id} className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                          <Checkbox
+                            id={`item-${item.id}`}
+                            checked={item.checked}
+                            onCheckedChange={() => toggleChecklistItem(item.id)}
+                            className="mt-1"
+                          />
+                          <label
+                            htmlFor={`item-${item.id}`}
+                            className={`flex-1 cursor-pointer ${item.checked ? 'line-through text-muted-foreground' : ''}`}
+                          >
+                            {item.item}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              );
+            })}
+          </Accordion>
+
+          <Card className="mt-6 bg-primary/5 border-primary/20">
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-4">
+                <Icon name="Info" size={24} className="text-primary flex-shrink-0 mt-1" />
+                <div>
+                  <h4 className="font-semibold mb-2">Обнаружили дефекты?</h4>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Не подписывайте акт приёма-передачи! Закажите профессиональную экспертизу с юридическим сопровождением.
+                  </p>
+                  <Button>
+                    Заказать приёмку
+                    <Icon name="ArrowRight" size={16} className="ml-2" />
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section id="prices" className="py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4">Прозрачные цены</Badge>
+            <h2 className="text-4xl font-bold mb-4">Стоимость услуг</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { name: 'Базовая', price: '8 000', area: 'до 50 м²', features: ['Визуальный осмотр', 'Базовые измерения', 'Фотофиксация', 'Акт осмотра'] },
+              { name: 'Стандарт', price: '12 000', area: 'до 80 м²', features: ['Всё из Базовой', 'Приборная диагностика', 'Проверка документов', 'Юрконсультация', 'Претензия застройщику'], popular: true },
+              { name: 'Премиум', price: '18 000', area: 'до 120 м²', features: ['Всё из Стандарт', 'Расширенная экспертиза', 'Тепловизор', 'Полное юрсопровождение', 'Контроль устранения'] },
+            ].map((plan, idx) => (
+              <Card key={idx} className={`relative ${plan.popular ? 'border-primary shadow-lg' : ''}`}>
+                {plan.popular && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <Badge className="bg-primary">Популярный</Badge>
+                  </div>
+                )}
+                <CardHeader>
+                  <CardTitle className="text-2xl">{plan.name}</CardTitle>
+                  <CardDescription className="text-base">{plan.area}</CardDescription>
+                  <div className="pt-4">
+                    <span className="text-4xl font-bold">{plan.price}</span>
+                    <span className="text-muted-foreground"> ₽</span>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {plan.features.map((feature, fIdx) => (
+                    <div key={fIdx} className="flex items-center gap-2">
+                      <Icon name="Check" size={18} className="text-primary flex-shrink-0" />
+                      <span className="text-sm">{feature}</span>
+                    </div>
+                  ))}
+                  <Button className="w-full mt-6" variant={plan.popular ? 'default' : 'outline'}>
+                    Выбрать
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="defects" className="py-20 px-4 bg-muted/30">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4">База знаний</Badge>
+            <h2 className="text-4xl font-bold mb-4">Типичные дефекты</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Самые распространённые проблемы, которые мы находим при приёмке
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              { title: 'Неровные стены', severity: 'Средняя', desc: 'Отклонение стен от вертикали более 10 мм на 2 метра. Требует выравнивания.' },
+              { title: 'Протечки окон', severity: 'Высокая', desc: 'Нарушение герметичности оконных конструкций. Может привести к плесени.' },
+              { title: 'Трещины в стяжке', severity: 'Высокая', desc: 'Трещины в полу более 0.3 мм. Указывают на нарушение технологии заливки.' },
+              { title: 'Некачественная плитка', severity: 'Средняя', desc: 'Сколы, неровная укладка, пустоты под плиткой. Требует переделки.' },
+              { title: 'Проблемы с электрикой', severity: 'Критическая', desc: 'Нерабочие розетки, неправильная разводка. Угроза безопасности.' },
+              { title: 'Плохая вентиляция', severity: 'Средняя', desc: 'Недостаточная тяга в вентканалах. Приводит к влажности и плесени.' },
+            ].map((defect, idx) => (
+              <Card key={idx}>
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <CardTitle className="text-xl">{defect.title}</CardTitle>
+                    <Badge variant={defect.severity === 'Критическая' ? 'destructive' : defect.severity === 'Высокая' ? 'default' : 'secondary'}>
+                      {defect.severity}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">{defect.desc}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="legal" className="py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4">Правовая информация</Badge>
+            <h2 className="text-4xl font-bold mb-4">Ваши права при приёмке</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            <Card>
+              <CardHeader>
+                <Icon name="FileText" size={32} className="text-primary mb-4" />
+                <CardTitle className="text-2xl">Федеральный закон № 214-ФЗ</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <p className="text-muted-foreground">
+                  Закон «Об участии в долевом строительстве» защищает права покупателей квартир в новостройках.
+                </p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <Icon name="CheckCircle2" size={16} className="text-primary mt-1 flex-shrink-0" />
+                    <span>Право отказаться от подписания акта при наличии дефектов</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Icon name="CheckCircle2" size={16} className="text-primary mt-1 flex-shrink-0" />
+                    <span>Застройщик обязан устранить недостатки в разумный срок</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Icon name="CheckCircle2" size={16} className="text-primary mt-1 flex-shrink-0" />
+                    <span>Возможность требовать уменьшения цены или возврата средств</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <Icon name="Scale" size={32} className="text-primary mb-4" />
+                <CardTitle className="text-2xl">Постановление № 1521</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <p className="text-muted-foreground">
+                  Определяет минимальный перечень дефектов и сроки их устранения.
+                </p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <Icon name="CheckCircle2" size={16} className="text-primary mt-1 flex-shrink-0" />
+                    <span>Критические недостатки — устранение до 45 дней</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Icon name="CheckCircle2" size={16} className="text-primary mt-1 flex-shrink-0" />
+                    <span>Гарантийные обязательства застройщика — 5 лет</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Icon name="CheckCircle2" size={16} className="text-primary mt-1 flex-shrink-0" />
+                    <span>Право на независимую экспертизу за счёт застройщика</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <section id="reviews" className="py-20 px-4 bg-muted/30">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4">Отзывы клиентов</Badge>
+            <h2 className="text-4xl font-bold mb-4">Что говорят наши клиенты</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { name: 'Анна Смирнова', text: 'Огромное спасибо! Нашли 47 дефектов, о которых я бы никогда не догадалась. Застройщик всё устранил за 3 недели.', rating: 5 },
+              { name: 'Дмитрий Иванов', text: 'Профессиональный подход, детальный отчёт. Юристы помогли составить претензию, застройщик быстро отреагировал.', rating: 5 },
+              { name: 'Мария Петрова', text: 'Очень рада, что заказала приёмку. Обнаружили серьёзные проблемы с электрикой. Могло быть опасно!', rating: 5 },
+            ].map((review, idx) => (
+              <Card key={idx}>
+                <CardHeader>
+                  <div className="flex items-center gap-2 mb-2">
+                    {[...Array(review.rating)].map((_, i) => (
+                      <Icon key={i} name="Star" size={16} className="text-yellow-500 fill-yellow-500" />
+                    ))}
+                  </div>
+                  <CardTitle className="text-lg">{review.name}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">{review.text}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 px-4 bg-secondary text-white">
+        <div className="container mx-auto max-w-4xl text-center">
+          <h2 className="text-4xl font-bold mb-4">Готовы принять квартиру?</h2>
+          <p className="text-lg mb-8 text-white/80">
+            Запишитесь на профессиональную приёмку и защитите свои права
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" variant="secondary" className="text-base">
+              <Icon name="Phone" size={18} className="mr-2" />
+              Позвонить сейчас
+            </Button>
+            <Button size="lg" variant="outline" className="text-base bg-transparent text-white border-white hover:bg-white/10">
+              Оставить заявку
+              <Icon name="ArrowRight" size={18} className="ml-2" />
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <footer className="bg-secondary/5 py-12 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Icon name="CheckCircle2" size={24} className="text-primary" />
+                <span className="font-bold">ПриёмкаПро</span>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Профессиональная приёмка недвижимости с юридической поддержкой
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Услуги</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="#" className="hover:text-primary transition-colors">Приёмка квартир</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Приёмка домов</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Экспертиза</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Юрподдержка</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Компания</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="#" className="hover:text-primary transition-colors">О нас</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Наши эксперты</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Портфолио</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Контакты</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Контакты</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-center gap-2">
+                  <Icon name="Phone" size={16} />
+                  +7 (495) 123-45-67
+                </li>
+                <li className="flex items-center gap-2">
+                  <Icon name="Mail" size={16} />
+                  info@priemkapro.ru
+                </li>
+                <li className="flex items-center gap-2">
+                  <Icon name="MapPin" size={16} />
+                  Москва, ул. Примерная, 1
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
+            <p>© 2024 ПриёмкаПро. Все права защищены.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
