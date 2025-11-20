@@ -1,50 +1,10 @@
-import { useState } from 'react';
 import Icon from '@/components/ui/icon';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Progress } from '@/components/ui/progress';
 
 const Index = () => {
-  const [checklistItems, setChecklistItems] = useState([
-    { id: 1, category: 'Окна и двери', item: 'Проверить открывание/закрывание окон', checked: false },
-    { id: 2, category: 'Окна и двери', item: 'Проверить уплотнители на окнах', checked: false },
-    { id: 3, category: 'Окна и двери', item: 'Проверить фурнитуру окон', checked: false },
-    { id: 4, category: 'Окна и двери', item: 'Проверить работу дверных замков', checked: false },
-    { id: 5, category: 'Стены и потолки', item: 'Осмотреть стены на трещины', checked: false },
-    { id: 6, category: 'Стены и потолки', item: 'Проверить ровность стен', checked: false },
-    { id: 7, category: 'Стены и потолки', item: 'Проверить потолки на протечки', checked: false },
-    { id: 8, category: 'Стены и потолки', item: 'Осмотреть углы и стыки', checked: false },
-    { id: 9, category: 'Электрика', item: 'Проверить работу розеток', checked: false },
-    { id: 10, category: 'Электрика', item: 'Проверить выключатели', checked: false },
-    { id: 11, category: 'Электрика', item: 'Проверить щиток', checked: false },
-    { id: 12, category: 'Сантехника', item: 'Проверить напор воды', checked: false },
-    { id: 13, category: 'Сантехника', item: 'Проверить трубы на протечки', checked: false },
-    { id: 14, category: 'Сантехника', item: 'Проверить канализацию', checked: false },
-    { id: 15, category: 'Полы', item: 'Проверить ровность полов', checked: false },
-    { id: 16, category: 'Полы', item: 'Осмотреть на дефекты', checked: false },
-  ]);
-
-  const toggleChecklistItem = (id: number) => {
-    setChecklistItems(items =>
-      items.map(item =>
-        item.id === id ? { ...item, checked: !item.checked } : item
-      )
-    );
-  };
-
-  const checkedCount = checklistItems.filter(item => item.checked).length;
-  const progressPercent = Math.round((checkedCount / checklistItems.length) * 100);
-
-  const groupedChecklist = checklistItems.reduce((acc, item) => {
-    if (!acc[item.category]) {
-      acc[item.category] = [];
-    }
-    acc[item.category].push(item);
-    return acc;
-  }, {} as Record<string, typeof checklistItems>);
 
   return (
     <div className="min-h-screen bg-background">
@@ -181,77 +141,118 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="checklist" className="py-20 px-4 bg-muted/30">
+      <section id="faq" className="py-20 px-4 bg-muted/30">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4">Интерактивный инструмент</Badge>
-            <h2 className="text-4xl font-bold mb-4">Чек-лист для самопроверки</h2>
+            <Badge variant="outline" className="mb-4">Частые вопросы</Badge>
+            <h2 className="text-4xl font-bold mb-4">Ответы на популярные вопросы</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Используйте наш чек-лист для предварительной проверки квартиры перед профессиональной приёмкой
+              Всё, что нужно знать о приёмке квартиры
             </p>
           </div>
           
-          <Card className="mb-6">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>Прогресс проверки</CardTitle>
-                <Badge variant="secondary">{checkedCount} из {checklistItems.length}</Badge>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <Progress value={progressPercent} className="h-3" />
-              <p className="text-sm text-muted-foreground mt-2">{progressPercent}% завершено</p>
-            </CardContent>
-          </Card>
+          <Accordion type="single" collapsible className="space-y-4">
+            <AccordionItem value="item-1" className="bg-white rounded-lg border px-6">
+              <AccordionTrigger className="text-left">
+                <span className="font-semibold">Когда нужно заказывать приёмку квартиры?</span>
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Приёмку следует заказывать сразу после получения уведомления от застройщика о готовности квартиры, 
+                но до подписания акта приёма-передачи. Это позволит зафиксировать все дефекты и обязать застройщика 
+                устранить их до передачи квартиры вам.
+              </AccordionContent>
+            </AccordionItem>
 
-          <Accordion type="multiple" className="space-y-4">
-            {Object.entries(groupedChecklist).map(([category, items]) => {
-              const categoryChecked = items.filter(item => item.checked).length;
-              return (
-                <AccordionItem key={category} value={category} className="bg-white rounded-lg border px-6">
-                  <AccordionTrigger className="hover:no-underline">
-                    <div className="flex items-center justify-between w-full pr-4">
-                      <span className="font-semibold">{category}</span>
-                      <Badge variant="outline">{categoryChecked}/{items.length}</Badge>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="pt-4">
-                    <div className="space-y-3">
-                      {items.map(item => (
-                        <div key={item.id} className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-                          <Checkbox
-                            id={`item-${item.id}`}
-                            checked={item.checked}
-                            onCheckedChange={() => toggleChecklistItem(item.id)}
-                            className="mt-1"
-                          />
-                          <label
-                            htmlFor={`item-${item.id}`}
-                            className={`flex-1 cursor-pointer ${item.checked ? 'line-through text-muted-foreground' : ''}`}
-                          >
-                            {item.item}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              );
-            })}
+            <AccordionItem value="item-2" className="bg-white rounded-lg border px-6">
+              <AccordionTrigger className="text-left">
+                <span className="font-semibold">Сколько времени занимает приёмка?</span>
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                В среднем приёмка однокомнатной квартиры занимает 3-4 часа, двухкомнатной — 4-5 часов, 
+                трёхкомнатной — 5-6 часов. Время зависит от площади, количества помещений и сложности инженерных систем.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-3" className="bg-white rounded-lg border px-6">
+              <AccordionTrigger className="text-left">
+                <span className="font-semibold">Что делать, если обнаружены дефекты?</span>
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Не подписывайте акт приёма-передачи! Составьте перечень недостатков в двух экземплярах, 
+                один передайте застройщику под роспись. По закону застройщик обязан устранить все дефекты в разумный срок. 
+                Мы поможем составить претензию и проконтролируем устранение.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-4" className="bg-white rounded-lg border px-6">
+              <AccordionTrigger className="text-left">
+                <span className="font-semibold">Могу ли я отказаться от квартиры?</span>
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Да, по закону № 214-ФЗ вы можете отказаться от квартиры и расторгнуть ДДУ, если обнаружены 
+                существенные недостатки, которые делают квартиру непригодной для проживания. К таким относятся: 
+                критические нарушения несущих конструкций, отклонения от проектной документации более 5%, 
+                отсутствие инженерных коммуникаций.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-5" className="bg-white rounded-lg border px-6">
+              <AccordionTrigger className="text-left">
+                <span className="font-semibold">Входит ли в стоимость повторный осмотр?</span>
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                В тарифы «Стандарт» и «Премиум» входит один повторный осмотр после устранения дефектов застройщиком. 
+                Это позволяет убедиться, что все недостатки исправлены качественно. Дополнительные повторные осмотры 
+                оплачиваются отдельно.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-6" className="bg-white rounded-lg border px-6">
+              <AccordionTrigger className="text-left">
+                <span className="font-semibold">Какие документы я получу после приёмки?</span>
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Вы получите подробный акт осмотра с описанием всех выявленных дефектов, фотофиксацией, 
+                замерами и рекомендациями по устранению. При необходимости наши юристы подготовят официальную претензию 
+                застройщику с требованием устранить недостатки.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-7" className="bg-white rounded-lg border px-6">
+              <AccordionTrigger className="text-left">
+                <span className="font-semibold">Нужно ли мне присутствовать при приёмке?</span>
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Ваше присутствие желательно, но не обязательно. Мы можем провести приёмку по вашей доверенности. 
+                Однако мы рекомендуем присутствовать, чтобы лично увидеть все выявленные проблемы и сразу задать 
+                интересующие вопросы нашим специалистам.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-8" className="bg-white rounded-lg border px-6">
+              <AccordionTrigger className="text-left">
+                <span className="font-semibold">Что такое гарантийные обязательства застройщика?</span>
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                По закону застройщик несёт гарантийные обязательства в течение 5 лет с момента передачи квартиры. 
+                Это значит, что если в течение этого срока вы обнаружите дефекты строительства, застройщик обязан 
+                их устранить бесплатно. Важно зафиксировать дефекты документально и вовремя направить претензию.
+              </AccordionContent>
+            </AccordionItem>
           </Accordion>
 
-          <Card className="mt-6 bg-primary/5 border-primary/20">
+          <Card className="mt-8 bg-primary/5 border-primary/20">
             <CardContent className="pt-6">
               <div className="flex items-start gap-4">
-                <Icon name="Info" size={24} className="text-primary flex-shrink-0 mt-1" />
+                <Icon name="HelpCircle" size={24} className="text-primary flex-shrink-0 mt-1" />
                 <div>
-                  <h4 className="font-semibold mb-2">Обнаружили дефекты?</h4>
+                  <h4 className="font-semibold mb-2">Остались вопросы?</h4>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Не подписывайте акт приёма-передачи! Закажите профессиональную экспертизу с юридическим сопровождением.
+                    Свяжитесь с нами для бесплатной консультации. Мы ответим на все ваши вопросы и поможем определиться с тарифом.
                   </p>
                   <Button>
-                    Заказать приёмку
-                    <Icon name="ArrowRight" size={16} className="ml-2" />
+                    Получить консультацию
+                    <Icon name="Phone" size={16} className="ml-2" />
                   </Button>
                 </div>
               </div>
