@@ -308,31 +308,65 @@ const Index = () => {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <Badge variant="outline" className="mb-4">База знаний</Badge>
-            <h2 className="text-4xl font-bold mb-4">Типичные дефекты</h2>
+            <h2 className="text-4xl font-bold mb-4">Типичные дефекты и нарушения закона</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Самые распространённые проблемы, которые мы находим при приёмке
+              Самые распространённые проблемы при приёмке и как они нарушают законодательство РФ
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              { title: 'Неровные стены', severity: 'Средняя', desc: 'Отклонение стен от вертикали более 10 мм на 2 метра. Требует выравнивания.' },
-              { title: 'Протечки окон', severity: 'Высокая', desc: 'Нарушение герметичности оконных конструкций. Может привести к плесени.' },
-              { title: 'Трещины в стяжке', severity: 'Высокая', desc: 'Трещины в полу более 0.3 мм. Указывают на нарушение технологии заливки.' },
-              { title: 'Некачественная плитка', severity: 'Средняя', desc: 'Сколы, неровная укладка, пустоты под плиткой. Требует переделки.' },
-              { title: 'Проблемы с электрикой', severity: 'Критическая', desc: 'Нерабочие розетки, неправильная разводка. Угроза безопасности.' },
-              { title: 'Плохая вентиляция', severity: 'Средняя', desc: 'Недостаточная тяга в вентканалах. Приводит к влажности и плесени.' },
+              { 
+                title: 'Неровные стены и полы', 
+                severity: 'Средняя', 
+                desc: 'Отклонение от вертикали более 10 мм на 2 метра. Требует выравнивания.',
+                law: 'СП 71.13330.2017: допустимое отклонение стен не более 5 мм на 2 метра'
+              },
+              { 
+                title: 'Протечки окон', 
+                severity: 'Высокая', 
+                desc: 'Нарушение герметичности оконных конструкций. Может привести к плесени.',
+                law: 'ГОСТ 30971-2012: окна должны обеспечивать полную герметичность в закрытом положении'
+              },
+              { 
+                title: 'Трещины в стяжке', 
+                severity: 'Высокая', 
+                desc: 'Трещины в полу более 0.3 мм. Указывают на нарушение технологии заливки.',
+                law: 'СП 29.13330.2011: трещины шириной более 0.3 мм недопустимы'
+              },
+              { 
+                title: 'Отклонение площади', 
+                severity: 'Критическая', 
+                desc: 'Площадь квартиры меньше указанной в ДДУ более чем на 5%.',
+                law: 'ФЗ-214: застройщик обязан передать объект с отклонением площади не более 5%'
+              },
+              { 
+                title: 'Проблемы с электрикой', 
+                severity: 'Критическая', 
+                desc: 'Нерабочие розетки, неправильная разводка. Угроза безопасности.',
+                law: 'ПУЭ 7-е издание: все электроустановки должны быть исправны и соответствовать нормам'
+              },
+              { 
+                title: 'Плохая вентиляция', 
+                severity: 'Высокая', 
+                desc: 'Недостаточная тяга в вентканалах. Приводит к влажности и плесени.',
+                law: 'СП 54.13330.2016: приток свежего воздуха не менее 3 м³/час на 1 м² площади'
+              },
             ].map((defect, idx) => (
               <Card key={idx}>
                 <CardHeader>
-                  <div className="flex items-start justify-between">
+                  <div className="flex items-start justify-between mb-2">
                     <CardTitle className="text-xl">{defect.title}</CardTitle>
                     <Badge variant={defect.severity === 'Критическая' ? 'destructive' : defect.severity === 'Высокая' ? 'default' : 'secondary'}>
                       {defect.severity}
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="space-y-3">
                   <p className="text-muted-foreground">{defect.desc}</p>
+                  <div className="flex items-start gap-2 pt-2 border-t">
+                    <Icon name="Scale" size={16} className="text-primary mt-1 flex-shrink-0" />
+                    <p className="text-sm text-primary/80">{defect.law}</p>
+                  </div>
                 </CardContent>
               </Card>
             ))}
