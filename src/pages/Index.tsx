@@ -141,6 +141,119 @@ const Index = () => {
         </div>
       </section>
 
+      <section id="benefits" className="py-20 px-4 bg-gradient-to-br from-primary/5 to-primary/10">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4 bg-white">Экономия</Badge>
+            <h2 className="text-4xl font-bold mb-4">Выгода от приёмки по закону</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Профессиональная приёмка окупается многократно благодаря защите ваших прав
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <Card className="text-center">
+              <CardHeader>
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name="Wallet" size={32} className="text-primary" />
+                </div>
+                <CardTitle className="text-3xl font-bold text-primary mb-2">до 500 000 ₽</CardTitle>
+                <CardDescription className="text-base">Средняя экономия на устранении дефектов</CardDescription>
+              </CardHeader>
+              <CardContent className="text-sm text-muted-foreground">
+                Застройщик устраняет дефекты за свой счёт до передачи квартиры. После подписания акта ремонт за ваш счёт.
+              </CardContent>
+            </Card>
+
+            <Card className="text-center">
+              <CardHeader>
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name="Clock" size={32} className="text-primary" />
+                </div>
+                <CardTitle className="text-3xl font-bold text-primary mb-2">2-3 месяца</CardTitle>
+                <CardDescription className="text-base">Экономия времени на ремонте</CardDescription>
+              </CardHeader>
+              <CardContent className="text-sm text-muted-foreground">
+                Не нужно делать капремонт сразу после заселения. Въезжайте в готовую квартиру без скрытых дефектов.
+              </CardContent>
+            </Card>
+
+            <Card className="text-center">
+              <CardHeader>
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name="Shield" size={32} className="text-primary" />
+                </div>
+                <CardTitle className="text-3xl font-bold text-primary mb-2">100%</CardTitle>
+                <CardDescription className="text-base">Юридическая защита прав</CardDescription>
+              </CardHeader>
+              <CardContent className="text-sm text-muted-foreground">
+                Документальная фиксация дефектов даёт право требовать устранения по закону ФЗ-214 в течение 5 лет.
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card className="bg-white border-2 border-primary/20">
+            <CardContent className="p-8">
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                    <Icon name="XCircle" size={28} className="text-destructive" />
+                    Без профессиональной приёмки
+                  </h3>
+                  <ul className="space-y-3">
+                    {[
+                      'Пропускаете скрытые дефекты',
+                      'Застройщик откажет в устранении после подписания акта',
+                      'Ремонт дефектов за свой счёт — 300-500 тыс. ₽',
+                      'Потеря времени на судебные разбирательства',
+                      'Невозможно доказать вину застройщика',
+                      'Риск проблем с эксплуатацией квартиры'
+                    ].map((item, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-muted-foreground">
+                        <Icon name="X" size={18} className="text-destructive mt-1 flex-shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                    <Icon name="CheckCircle2" size={28} className="text-primary" />
+                    С профессиональной приёмкой
+                  </h3>
+                  <ul className="space-y-3">
+                    {[
+                      'Находим 98% всех дефектов',
+                      'Застройщик устраняет всё до передачи квартиры',
+                      'Экономия 300-500 тыс. ₽ на ремонте',
+                      'Юридическое сопровождение включено',
+                      'Документальная фиксация всех нарушений',
+                      'Спокойствие и уверенность в качестве'
+                    ].map((item, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-muted-foreground">
+                        <Icon name="Check" size={18} className="text-primary mt-1 flex-shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <div className="mt-8 text-center pt-8 border-t">
+                <p className="text-lg mb-4">
+                  <span className="font-bold text-2xl text-primary">12 000 ₽</span> 
+                  <span className="text-muted-foreground"> за приёмку экономят </span>
+                  <span className="font-bold text-2xl text-primary">300-500 тыс. ₽</span>
+                </p>
+                <Button size="lg" className="text-base">
+                  Заказать приёмку сейчас
+                  <Icon name="ArrowRight" size={18} className="ml-2" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
       <section id="faq" className="py-20 px-4 bg-muted/30">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
